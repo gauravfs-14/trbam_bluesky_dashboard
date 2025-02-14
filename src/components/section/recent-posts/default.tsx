@@ -45,16 +45,14 @@ export default function RecentPosts({
                         post.raw_data.embed.images &&
                         post.raw_data.embed.images.length > 0 && (
                           <div className="mt-3 grid grid-cols-2 gap-2 w-fit">
-                            {post.raw_data.embed.images.map(
-                              (img: any, idx: any) => (
-                                <img
-                                  key={idx}
-                                  src={img.thumb}
-                                  alt={img.alt || ""}
-                                  className="rounded-md max-h-48 object-cover"
-                                />
-                              )
-                            )}
+                            {post.raw_data.embed.images.map((img, idx) => (
+                              <img
+                                key={idx}
+                                src={img.thumb}
+                                alt={img.alt || ""}
+                                className="rounded-md max-h-48 object-cover"
+                              />
+                            ))}
                           </div>
                         )}
 

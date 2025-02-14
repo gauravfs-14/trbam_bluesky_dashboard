@@ -23,7 +23,15 @@ export interface RawData {
   quoteCount: number;
   indexedAt: string;
   viewer: Viewer;
-  labels: any[]; // adjust type if you know what labels contain
+  labels:
+    | {
+        src: string;
+        uri: string;
+        cid: string;
+        val: string;
+        cts: string;
+      }
+    | [];
 }
 
 export interface RawAuthor {
@@ -40,7 +48,15 @@ export interface RawAuthor {
     muted: boolean;
     blockedBy: boolean;
   };
-  labels: any[];
+  labels:
+    | {
+        src: string;
+        uri: string;
+        cid: string;
+        val: string;
+        cts: string;
+      }
+    | [];
   createdAt: string;
 }
 
