@@ -10,7 +10,6 @@ const dbPath = path.join(
   process.cwd(),
   "src/app/api/posts/trbam_bluesky_posts.db"
 );
-console.log("Database path:", dbPath);
 
 // Initialize better-sqlite3 connection and Drizzle ORM.
 const sqlite = new Database(dbPath);
