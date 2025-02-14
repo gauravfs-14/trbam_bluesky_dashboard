@@ -2,15 +2,7 @@ import { NextResponse } from "next/server";
 import { drizzleDb } from "@/db";
 import { posts } from "@/db/schema";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ action: string }> }
-) {
-  const action = (await params).action;
-  if (action !== "allPostsSummary") {
-    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  }
-
+export async function GET() {
   try {
     // Retrieve all posts from database.
     const allPosts = drizzleDb.select().from(posts).all();
