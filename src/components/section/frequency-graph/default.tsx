@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Dygraph from "dygraphs";
 import "dygraphs/dist/dygraph.css";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface FrequencyDataProps {
   date: string;
@@ -47,11 +47,7 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
       ]);
 
       // Custom tick formatter that maps indices back to actual dates
-      const xAxisFormatter = (
-        v: number | Date,
-        _granularity: number,
-        _opts: (name: string) => unknown
-      ) => {
+      const xAxisFormatter = (v: number | Date) => {
         const idx = typeof v === "number" ? v : 0;
         if (idx < 0 || idx >= uniqueDates.length) return "";
         const date = new Date(uniqueDates[idx]);
@@ -96,7 +92,7 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
               );
               const ticks = [];
               for (let i = 0; i < uniqueDates.length; i += step) {
-                ticks.push({ v: i, label: xAxisFormatter(i, 0, () => {}) });
+                ticks.push({ v: i, label: xAxisFormatter(i) });
               }
               return ticks;
             },

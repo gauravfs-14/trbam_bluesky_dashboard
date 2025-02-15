@@ -1,5 +1,3 @@
-import dynamic from "next/dynamic";
-
 import ClientFrequencyGraph from "@/components/section/frequency-graph/client-wrapper";
 
 import Header from "@/components/section/header/default";
