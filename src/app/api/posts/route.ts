@@ -1,19 +1,7 @@
 // app/api/posts/route.ts
-import { NextResponse } from "next/server";
-import Database from "better-sqlite3";
-import path from "path";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+import { drizzleDb } from "@/db";
 import { posts } from "@/db/schema";
-
-// Construct the absolute path to your database file.
-const dbPath = path.join(
-  process.cwd(),
-  "src/app/api/posts/trbam_bluesky_posts.db"
-);
-
-// Initialize better-sqlite3 connection and Drizzle ORM.
-const sqlite = new Database(dbPath);
-const drizzleDb = drizzle(sqlite);
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {

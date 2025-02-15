@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: "A dashboard for TRBAM posts from Bluesky",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{
