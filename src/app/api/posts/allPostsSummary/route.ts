@@ -6,23 +6,30 @@ export async function GET() {
   try {
     // Retrieve all posts from database.
     const allPosts = drizzleDb.select().from(posts).all();
+    // Filter posts to only include those from 2024 and 2025.
+    const filteredPosts = allPosts.filter((post) => {
+      const year = new Date(post.created_at ?? 0).getFullYear();
+      return year === 2024 || year === 2025;
+    });
+
     // Parse raw_data JSON string for each post.
-    const postsWithParsedData = allPosts.map((post) => ({
+    const postsWithParsedData = filteredPosts.map((post) => ({
       ...post,
       raw_data: post.raw_data ? JSON.parse(post.raw_data) : null,
     }));
-
-    // Group posts by year based on created_at.
-    const postsByYear: { [key: string]: number } = {};
+    // Group posts by full date based on created_at.
+    const postsByDate: { [key: string]: number } = {};
     postsWithParsedData.forEach((post) => {
-      const yearKey = new Date(post.created_at ?? 0).getFullYear().toString();
-      postsByYear[yearKey] = (postsByYear[yearKey] || 0) + 1;
+      const dateKey = new Date(post.created_at ?? 0)
+        .toISOString()
+        .split("T")[0];
+      postsByDate[dateKey] = (postsByDate[dateKey] || 0) + 1;
     });
 
-    // Create frequency data sorted by year.
-    const frequencyData = Object.entries(postsByYear)
-      .map(([year, count]) => ({ year, count }))
-      .sort((a, b) => Number(a.year) - Number(b.year));
+    // Create frequency data sorted by date.
+    const frequencyData = Object.entries(postsByDate)
+      .map(([date, count]) => ({ date, count }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     const totalPosts = postsWithParsedData.length;
     const totalLikes = postsWithParsedData.reduce(
@@ -91,7 +98,7 @@ export async function GET() {
     });
     const topContributors = Object.values(contributors)
       .sort((a, b) => b.postCount - a.postCount)
-      .slice(0, 5);
+      .slice(0, 10);
 
     return NextResponse.json({
       totalPosts,

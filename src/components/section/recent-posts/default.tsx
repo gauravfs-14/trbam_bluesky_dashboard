@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Post } from "@/types/post-types";
+import Link from "next/link";
 
 export default function RecentPosts({
   mostRecentPosts,
@@ -19,12 +20,17 @@ export default function RecentPosts({
               return (
                 <li key={post.id} className="border-b pb-4 last:border-0">
                   <div className="flex items-start">
-                    <Avatar className="mr-3">
-                      <AvatarImage src={post.raw_data.author.avatar} />
-                      <AvatarFallback>
-                        {post.raw_data.author.displayName[0]}
-                      </AvatarFallback>
-                    </Avatar>
+                    <Link
+                      href={`https://bsky.app/profile/${post.raw_data.author.handle}`}
+                      target="_blank"
+                    >
+                      <Avatar className="mr-3">
+                        <AvatarImage src={post.raw_data.author.avatar} />
+                        <AvatarFallback>
+                          {post.raw_data.author.displayName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Link>
                     <div className="w-full">
                       <div className="flex items-center justify-between">
                         <div>
@@ -32,7 +38,12 @@ export default function RecentPosts({
                             {post.raw_data.author.displayName}
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            @{post.raw_data.author.handle}
+                            <Link
+                              href={`https://bsky.app/profile/${post.raw_data.author.handle}`}
+                              target="_blank"
+                            >
+                              @{post.raw_data.author.handle}
+                            </Link>
                           </p>
                         </div>
                         <span className="text-sm text-muted-foreground">
@@ -63,6 +74,17 @@ export default function RecentPosts({
                         </span>
                         <span className="text-sm">
                           {post.repost_count} reposts
+                        </span>
+                        <span className="text-sm">
+                          <Link
+                            href={`https://bsky.app/profile/${
+                              post.raw_data.author.handle
+                            }/post/${post.id.split("/").pop()}`}
+                            target="_blank"
+                            className="text-blue-500 underline"
+                          >
+                            View in Bsky
+                          </Link>
                         </span>
                       </div>
                     </div>

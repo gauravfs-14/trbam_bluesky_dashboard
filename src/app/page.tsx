@@ -1,4 +1,7 @@
-import FrequencyGraph from "@/components/section/frequency-graph/default";
+import dynamic from "next/dynamic";
+
+import ClientFrequencyGraph from "@/components/section/frequency-graph/client-wrapper";
+
 import Header from "@/components/section/header/default";
 import MetricesCard from "@/components/section/metrices-card/default";
 import MostCommentedPosts from "@/components/section/most-commented-posts/default";
@@ -51,8 +54,8 @@ export default async function Dashboard() {
             totalReposts={totalReposts}
           />
 
-          {/* Frequency graph */}
-          <FrequencyGraph frequencyData={frequencyData} />
+          {/* Frequency graph via client component wrapper */}
+          <ClientFrequencyGraph frequencyData={frequencyData} />
 
           <Tabs defaultValue="overview" className="mb-6 space-y-6">
             <TabsList>

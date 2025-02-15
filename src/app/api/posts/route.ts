@@ -13,9 +13,14 @@ export async function GET(request: Request) {
 
     // Retrieve all posts from database.
     const allPosts = drizzleDb.select().from(posts).all();
+    // Filter posts to only include those from 2024 and 2025.
+    const filteredPosts = allPosts.filter((post) => {
+      const year = new Date(post.created_at ?? 0).getFullYear();
+      return year === 2024 || year === 2025;
+    });
 
     // Paginate posts.
-    const paginatedPosts = allPosts.slice(offset, offset + limit);
+    const paginatedPosts = filteredPosts.slice(offset, offset + limit);
     // Parse raw_data JSON string for each post.
     const postsWithParsedData = paginatedPosts.map((post) => ({
       ...post,
