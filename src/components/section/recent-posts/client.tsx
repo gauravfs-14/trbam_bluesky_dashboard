@@ -16,7 +16,19 @@ interface Post {
   id: string;
   created_at: string;
   text: string;
-  raw_data: any;
+  raw_data: {
+    author: {
+      handle: string;
+      avatar: string;
+      displayName: string;
+    };
+    embed?: {
+      images?: {
+        thumb: string;
+        alt?: string;
+      }[];
+    };
+  };
   like_count?: number;
   reply_count?: number;
   repost_count?: number;
@@ -108,7 +120,10 @@ export default function RecentPostsClient() {
                       post.raw_data.embed.images.length > 0 && (
                         <div className="mt-3 grid grid-cols-2 gap-2 w-fit">
                           {post.raw_data.embed.images.map(
-                            (img: any, idx: number) => (
+                            (
+                              img: { thumb: string; alt?: string },
+                              idx: number
+                            ) => (
                               <img
                                 key={idx}
                                 src={img.thumb}
