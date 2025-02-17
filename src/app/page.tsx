@@ -9,6 +9,7 @@ import TopAuthors from "@/components/section/top-authors/default";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
 import Loading from "./loading";
+import PopularWords from "@/components/section/popular-words/default";
 
 export default async function Dashboard() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
@@ -59,9 +60,8 @@ export default async function Dashboard() {
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="posts">Posts</TabsTrigger>
-              <TabsTrigger value="authors">
-                Top Contributors Authors
-              </TabsTrigger>
+              <TabsTrigger value="authors">Top Authors</TabsTrigger>
+              <TabsTrigger value="words">Top Words</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview">
@@ -80,6 +80,10 @@ export default async function Dashboard() {
             <TabsContent value="authors">
               {/* Top authors */}
               <TopAuthors topContributors={topContributors} />
+            </TabsContent>
+            <TabsContent value="words">
+              {/* Top words */}
+              <PopularWords />
             </TabsContent>
           </Tabs>
         </>
