@@ -4,7 +4,7 @@ import Header from "@/components/section/header/default";
 import MetricesCard from "@/components/section/metrices-card/default";
 import MostCommentedPosts from "@/components/section/most-commented-posts/default";
 import MostLikedPosts from "@/components/section/most-liked-posts/default";
-import RecentPosts from "@/components/section/recent-posts/default";
+import RecentPostsClient from "@/components/section/recent-posts/client";
 import TopAuthors from "@/components/section/top-authors/default";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
@@ -20,13 +20,6 @@ export default async function Dashboard() {
     .catch((error) => {
       throw new Error(`Failed to fetch allPostsSummary: ${error}`);
     });
-  const posts = await fetch(`${baseUrl}/api/posts`, {
-    cache: "no-store",
-  })
-    .then((res) => res.json())
-    .catch((error) => {
-      throw new Error(`Failed to fetch posts: ${error}`);
-    });
 
   const totalPosts = allPostsSummary.totalPosts;
   const totalLikes = allPostsSummary.totalLikes;
@@ -35,7 +28,6 @@ export default async function Dashboard() {
   const frequencyData = allPostsSummary.frequencyData;
   const mostLikedPosts = allPostsSummary.mostLikedPosts;
   const mostCommentedPosts = allPostsSummary.mostCommentedPosts;
-  const mostRecentPosts = posts.posts;
   const topContributors = allPostsSummary.topContributors;
 
   return (
@@ -74,8 +66,8 @@ export default async function Dashboard() {
             </TabsContent>
 
             <TabsContent value="posts">
-              {/* Recent Posts */}
-              <RecentPosts mostRecentPosts={mostRecentPosts} />
+              {/* Use the client component for pagination */}
+              <RecentPostsClient />
             </TabsContent>
             <TabsContent value="authors">
               {/* Top authors */}

@@ -3,11 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Post } from "@/types/post-types";
 import Link from "next/link";
 
-export default function RecentPosts({
-  mostRecentPosts,
-}: {
-  mostRecentPosts: Post[];
-}) {
+export default async function RecentPosts() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const posts = await fetch(`${baseUrl}/api/posts`, {
+    cache: "no-store",
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      throw new Error(`Failed to fetch posts: ${error}`);
+    });
+
   return (
     <>
       <Card>
@@ -16,7 +22,7 @@ export default function RecentPosts({
         </CardHeader>
         <CardContent>
           <ul className="space-y-6">
-            {mostRecentPosts.map((post) => {
+            {posts.posts.map((post: Post) => {
               return (
                 <li key={post.id} className="border-b pb-4 last:border-0">
                   <div className="flex items-start">
