@@ -70,3 +70,23 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Dygraph Legend Styles */
+.dygraph-legend {
+  @apply bg-white border border-gray-200 shadow-sm rounded-lg p-2 text-gray-800;
+}
+
+/* Dark mode styles for Dygraph Legend */
+:is(.dark) .dygraph-legend {
+  @apply bg-gray-800 border-gray-700 text-gray-200;
+}
+
+/* Dygraph Legend Text */
+.dygraph-legend > span {
+  @apply text-gray-800;
+}
+
+/* Dark mode for legend text */
+:is(.dark) .dygraph-legend > span {
+  @apply text-gray-200;
+}

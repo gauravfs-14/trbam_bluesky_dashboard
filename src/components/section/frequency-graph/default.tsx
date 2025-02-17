@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 import Dygraph from "dygraphs";
 import "dygraphs/dist/dygraph.css";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,6 +18,8 @@ interface FrequencyGraphProps {
 export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
   const graphContainer = useRef<HTMLDivElement>(null);
   const graphInstance = useRef<Dygraph | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
     if (
@@ -51,16 +54,23 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
         const idx = typeof v === "number" ? v : 0;
         if (idx < 0 || idx >= uniqueDates.length) return "";
         const date = new Date(uniqueDates[idx]);
-        return date.toLocaleDateString(undefined, {
+        return `<span style="color: ${
+          isDark ? "#E5E7EB" : "#374151"
+        }">${date.toLocaleDateString(undefined, {
           month: "short",
           year: "numeric",
-        });
+        })}</span>`;
       };
+
+      const valueStyle = `
+        color: ${isDark ? "#E5E7EB" : "#374151"};
+        background-color: ${isDark ? "#111827" : "#FFFFFF"};
+      `;
 
       const valueFormatter = (idx: number) => {
         if (idx < 0 || idx >= uniqueDates.length) return "";
         const date = new Date(uniqueDates[idx]);
-        return date.toLocaleDateString();
+        return `<span style="${valueStyle}">${date.toLocaleDateString()}</span>`;
       };
 
       const options = {
@@ -76,8 +86,29 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
         highlightCircleSize: 6,
         showRangeSelector: true,
         rangeSelectorHeight: 30,
-        rangeSelectorPlotFillColor: "rgba(66, 133, 244, 0.3)",
-        rangeSelectorPlotStrokeColor: "#4285F4",
+        backgroundColor: isDark ? "#111827" : "white", // dark:bg-gray-900
+        rangeSelectorPlotFillColor: isDark
+          ? "rgba(147, 197, 253, 0.3)"
+          : "rgba(66, 133, 244, 0.3)",
+        rangeSelectorPlotStrokeColor: isDark ? "#60A5FA" : "#4285F4",
+        rangeSelectorBackgroundColor: isDark ? "#111827" : "white",
+        rangeSelectorForegroundColor: isDark ? "#E5E7EB" : "#374151",
+        gridLineColor: isDark
+          ? "rgba(255, 255, 255, 0.1)"
+          : "rgba(0, 0, 0, 0.1)",
+        axisLineColor: isDark
+          ? "rgba(255, 255, 255, 0.2)"
+          : "rgba(0, 0, 0, 0.2)",
+        textColor: isDark ? "#E5E7EB" : "#374151",
+        titleColor: isDark ? "#E5E7EB" : "#374151",
+        labelsDivStyles: {
+          color: isDark ? "#E5E7EB" : "#374151",
+          padding: "8px",
+          borderRadius: "4px",
+          border: `1px solid ${
+            isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"
+          }`,
+        },
         axes: {
           x: {
             valueFormatter: valueFormatter,
@@ -96,15 +127,36 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
               }
               return ticks;
             },
+            axisLabelColor: isDark ? "#E5E7EB" : "#374151",
+            axisLineColor: isDark
+              ? "rgba(255, 255, 255, 0.2)"
+              : "rgba(0, 0, 0, 0.2)",
+          },
+          y: {
+            valueFormatter: (y: number) => {
+              return `<span style="${valueStyle}">${y}</span>`;
+            },
+            axisLabelFormatter: (
+              v: number | Date,
+              _granularity: number,
+              _opts: (name: string) => unknown,
+              _dygraph: Readonly<Dygraph>
+            ) => {
+              return `<span style="${valueStyle}">${v}</span>`;
+            },
+            axisLabelColor: isDark ? "#E5E7EB" : "#374151",
+            axisLineColor: isDark
+              ? "rgba(255, 255, 255, 0.2)"
+              : "rgba(0, 0, 0, 0.2)",
           },
         },
         series: {
           Count: {
-            color: "#4285F4",
+            color: isDark ? "#60A5FA" : "#4285F4",
+            strokeWidth: 2,
           },
         },
-        // Increase height to accommodate range selector
-        height: 280, // Main chart height
+        height: 280,
       };
 
       if (graphInstance.current) {
@@ -125,16 +177,16 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
         graphInstance.current = null;
       }
     };
-  }, [frequencyData]);
+  }, [frequencyData, isDark]);
 
   return (
-    <Card>
+    <Card className="rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-xl dark:bg-gray-900">
       <CardContent className="p-4">
         <div className="col-span-1 lg:col-span-2">
-          {/* Increase container height to accommodate range selector */}
           <div
             ref={graphContainer}
             style={{ width: "100%", height: "350px" }}
+            className="dark:text-gray-200"
           />
         </div>
       </CardContent>
