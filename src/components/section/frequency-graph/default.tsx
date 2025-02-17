@@ -136,12 +136,7 @@ export default function FrequencyGraph({ frequencyData }: FrequencyGraphProps) {
             valueFormatter: (y: number) => {
               return `<span style="${valueStyle}">${y}</span>`;
             },
-            axisLabelFormatter: (
-              v: number | Date,
-              _granularity: number,
-              _opts: (name: string) => unknown,
-              _dygraph: Readonly<Dygraph>
-            ) => {
+            axisLabelFormatter: (v: number | Date) => {
               return `<span style="${valueStyle}">${v}</span>`;
             },
             axisLabelColor: isDark ? "#E5E7EB" : "#374151",
