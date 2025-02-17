@@ -18,19 +18,19 @@ export default function Footer() {
         </p>
         <ul className="flex space-x-4 mt-4 md:mt-0">
           <li>
-            <a href="/" className="text-sm hover:underline">
+            <Link href="/" className="text-sm hover:underline">
               Privacy Policy
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="text-sm hover:underline">
+            <Link href="/" className="text-sm hover:underline">
               Terms
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="text-sm hover:underline">
+            <Link href="/" className="text-sm hover:underline">
               Contact Us
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
