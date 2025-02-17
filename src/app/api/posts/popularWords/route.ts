@@ -5,7 +5,12 @@ import { cache } from "react";
 
 // Cache the word analysis for 1 hour
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
-let cachedResult: any = null;
+interface CachedResult {
+  wordCloud: { text: string; value: number }[];
+  barChart: { word: string; frequency: number }[];
+}
+
+let cachedResult: CachedResult | null = null;
 let lastCacheTime = 0;
 
 // Process posts in chunks to avoid memory issues
