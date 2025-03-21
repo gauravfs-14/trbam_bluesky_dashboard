@@ -14,7 +14,22 @@ export default function Footer() {
           >
             AIT Lab
           </Link>
-          . All rights reserved.
+          . All rights reserved. | Developed by{" "}
+          <Link
+            href="https://github.com/gauravfs-14"
+            target="_blank"
+            className="hover:underline"
+          >
+            Gaurab Chhetri
+          </Link>{" "}
+          | Supported by{" "}
+          <Link
+            href="https://ait-lab.vercel.app"
+            target="_blank"
+            className="hover:underline"
+          >
+            AIT Lab
+          </Link>
         </p>
         <ul className="flex space-x-4 mt-4 md:mt-0">
           <li>
